@@ -124,3 +124,54 @@ MIT — libre para usar, modificar y distribuir. Si lo usas en un proyecto agrí
 ---
 
 Desarrollado en Tubará, Atlántico, Colombia.
+
+---
+
+## 🌐 Overview · Resumen
+
+<table>
+<tr>
+<td width="50%">
+
+### 🇬🇧 English
+
+**Low-cost IoT agronomic monitoring for smallholder farmers in Colombia's Caribbean coast** — no cloud subscription, no proprietary hardware.
+
+**What it solves:** Professional soil-monitoring solutions cost $8–20 M COP per point in Colombia, far beyond the reach of 0.5–5 ha producers. This system delivers the same agronomic intelligence — FAO-56 evapotranspiration, soil moisture balance, heat-stress and fungal-risk alerts — from a field kit assembled for $83 000–180 000 COP.
+
+**At maturity:** ESP32 field nodes send readings over Wi-Fi → a Node.js server runs the FAO-56 engine (ET₀, ETc, VPD, GDD, irrigation forecast) → a real-time browser dashboard shows thresholds, alerts, and irrigation timing for the farmer's specific crop. WhatsApp alerts (n8n) fire automatically when thresholds are crossed.
+
+**Quick start (no hardware needed):**
+```bash
+node servidor/server.js      # start the server + dashboard
+node simulador/simulador.js  # generate 7 days of history + live simulation
+# open http://localhost:3300
+```
+Requires Node.js ≥ 18. Zero npm dependencies.
+
+**Status:** Phase 0 complete · Phases 1–4 planned: YOLOv11 pest detection, ESP32-CAM trap counting, drone NDVI mapping, WhatsApp AI assistant.
+
+</td>
+<td width="50%">
+
+### 🇨🇴 Español
+
+**Monitoreo agronómico IoT de bajo costo para pequeños productores de la Costa Caribe de Colombia** — sin suscripción en la nube, sin hardware propietario.
+
+**Qué resuelve:** Las soluciones profesionales de monitoreo de suelo cuestan $8–20 millones COP por punto en Colombia — fuera del alcance del productor de 0,5–5 ha. Este sistema lleva la misma inteligencia agronómica — evapotranspiración FAO-56, balance de humedad, alertas de estrés térmico y riesgo fúngico — con un kit ensamblable por $83 000–180 000 COP.
+
+**En fase madura:** Los nodos de campo ESP32 envían lecturas por Wi-Fi → un servidor Node.js ejecuta el motor FAO-56 (ET₀, ETc, VPD, GDD, proyección de riego) → un dashboard en el navegador muestra umbrales, alertas y calendarios de riego para el cultivo específico del agricultor. Las alertas por WhatsApp (n8n) se disparan automáticamente cuando se superan los umbrales.
+
+**Inicio rápido (sin hardware):**
+```bash
+node servidor/server.js      # iniciar el servidor + dashboard
+node simulador/simulador.js  # generar 7 días de historia + simulación en vivo
+# abrir http://localhost:3300
+```
+Requiere Node.js ≥ 18. Sin dependencias npm.
+
+**Estado:** Fase 0 completa · Fases 1–4 planificadas: detección de plagas YOLOv11, conteo en trampas con ESP32-CAM, mapeo NDVI con dron, asistente IA por WhatsApp.
+
+</td>
+</tr>
+</table>
