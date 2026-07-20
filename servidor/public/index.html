@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgroMonitor Tubará</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0d1512; --panel: #14211b; --panel2: #1a2b22; --borde: #24382d;
+    --texto: #e7f0ea; --texto2: #8fa89a; --verde: #4ade80; --ambar: #fbbf24;
+    --rojo: #f87171; --azul: #60a5fa;
+    --radio: 14px; font-size: 15px;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--texto); font-family: 'Segoe UI', system-ui, sans-serif; padding: 1.2rem; }
+  header { display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+  h1 { font-size: 1.5rem; letter-spacing: -0.02em; }
+  h1 span { color: var(--verde); }
+  .sub { color: var(--texto2); font-size: 0.85rem; }
+  .grid-nodos { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 0.8rem; margin-bottom: 1.2rem; }
+  .card-nodo { background: var(--panel); border: 1px solid var(--borde); border-radius: var(--radio); padding: 0.9rem 1rem; cursor: pointer; transition: transform .12s, border-color .12s; border-left: 5px solid var(--borde); }
+  .card-nodo:hover { transform: translateY(-2px); }
+  .card-nodo.activo { border-color: var(--verde); background: var(--panel2); }
+  .card-nodo .nombre { font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+  .card-nodo .hum { font-size: 2rem; font-weight: 700; margin: 0.2rem 0; }
+  .card-nodo .meta { color: var(--texto2); font-size: 0.78rem; }
+  .punto { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .banner { border-radius: var(--radio); padding: 1rem 1.3rem; margin-bottom: 1.2rem; font-size: 1.05rem; font-weight: 600; display: flex; gap: 0.9rem; align-items: center; }
+  .banner .estado { font-size: 1.6rem; font-weight: 800; letter-spacing: 0.02em; }
+  .metricas { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.7rem; margin-bottom: 1.2rem; }
+  .metrica { background: var(--panel); border: 1px solid var(--borde); border-radius: var(--radio); padding: 0.75rem 0.9rem; }
+  .metrica .v { font-size: 1.45rem; font-weight: 700; }
+  .metrica .l { color: var(--texto2); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+  .metrica .n { color: var(--texto2); font-size: 0.72rem; margin-top: 3px; }
+  .paneles { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1.2rem; }
+  .panel { background: var(--panel); border: 1px solid var(--borde); border-radius: var(--radio); padding: 1rem; }
+  .panel h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--texto2); margin-bottom: 0.7rem; }
+  .lista { display: flex; flex-direction: column; gap: 0.5rem; max-height: 300px; overflow-y: auto; }
+  .item { background: var(--panel2); border-radius: 8px; padding: 0.5rem 0.7rem; font-size: 0.82rem; border-left: 3px solid var(--borde); }
+  .item .cuando { color: var(--texto2); font-size: 0.72rem; }
+  .sev-ALTA { border-left-color: var(--rojo); }
+  .sev-MEDIA { border-left-color: var(--ambar); }
+  .sev-BAJA { border-left-color: var(--azul); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+  th { color: var(--texto2); text-align: right; font-weight: 500; padding: 0.35rem 0.5rem; border-bottom: 1px solid var(--borde); }
+  th:first-child, td:first-child { text-align: left; }
+  td { text-align: right; padding: 0.35rem 0.5rem; border-bottom: 1px solid #1c2d24; }
+  canvas { max-height: 260px; }
+  @media (max-width: 900px) { .paneles { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>🌱 Agro<span>Monitor</span> Tubará</h1>
+  <div class="sub" id="reloj"></div>
+  <div class="sub" id="conexion">conectando…</div>
+</header>
+
+<div class="grid-nodos" id="nodos"></div>
+<div id="detalle" style="display:none">
+  <div class="banner" id="banner"></div>
+  <div class="metricas" id="metricas"></div>
+  <div class="paneles">
+    <div class="panel"><h3>Humedad del suelo (%) y umbrales del cultivo</h3><canvas id="chHumedad"></canvas></div>
+    <div class="panel"><h3>⚠ Alertas agronómicas</h3><div class="lista" id="alertas"></div></div>
+  </div>
+  <div class="paneles">
+    <div class="panel"><h3>Temperatura y humedad relativa del aire</h3><canvas id="chClima"></canvas></div>
+    <div class="panel"><h3>💧 Eventos de agua detectados (riego/lluvia)</h3><div class="lista" id="eventos"></div></div>
+  </div>
+  <div class="panel" style="margin-bottom:1.2rem"><h3>Resumen diario — ET₀ Hargreaves (FAO-56), demanda del cultivo y grados-día</h3>
+    <table><thead><tr><th>Fecha</th><th>Hum. media</th><th>Hum. mín</th><th>T mín</th><th>T máx</th><th>ET₀ mm</th><th>ETc mm (≙ L/m²)</th><th>GDD acum.</th></tr></thead>
+    <tbody id="tablaDias"></tbody></table>
+  </div>
+</div>
+<div class="sub" id="vacio" style="display:none">Esperando datos… inicia el simulador: <code>node simulador/simulador.js</code></div>
+
+<script>
+'use strict';
+let nodoActivo = null;
+let chHumedad = null, chClima = null;
+
+const $ = (id) => document.getElementById(id);
+const fmtHora = (ts) => new Date(ts).toLocaleString('es-CO', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' });
+
+async function api(ruta) {
+  const r = await fetch(ruta);
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return r.json();
+}
+
+async function refrescarNodos() {
+  try {
+    const { nodos } = await api('/api/nodos');
+    $('conexion').textContent = '● servidor en línea';
+    $('conexion').style.color = 'var(--verde)';
+    $('vacio').style.display = nodos.length ? 'none' : 'block';
+    if (!nodoActivo && nodos.length) nodoActivo = nodos[0].nodo;
+    $('nodos').innerHTML = nodos.map((n) => `
+      <div class="card-nodo ${n.nodo === nodoActivo ? 'activo' : ''}" style="border-left-color:${n.semaforo.color}" onclick="seleccionar('${n.nodo}')">
+        <div class="nombre">${n.nodo}
+          <span class="punto" style="background:${n.enLinea ? 'var(--verde)' : 'var(--rojo)'}" title="${n.enLinea ? 'en línea' : 'sin reportar >45 min'}"></span>
+        </div>
+        <div class="hum" style="color:${n.semaforo.color}">${n.ultima ? n.ultima.humedad_suelo.toFixed(0) + '%' : '—'}</div>
+        <div class="meta">${n.cultivo || ''} · <b style="color:${n.semaforo.color}">${n.semaforo.estado}</b><br>
+        ${n.ultima ? fmtHora(n.ultima.ts) : ''} · ${n.lecturas} lecturas</div>
+      </div>`).join('');
+    if (nodoActivo) await refrescarDetalle();
+  } catch (e) {
+    $('conexion').textContent = '● sin conexión con el servidor';
+    $('conexion').style.color = 'var(--rojo)';
+  }
+}
+
+function seleccionar(n) { nodoActivo = n; refrescarNodos(); }
+
+async function refrescarDetalle() {
+  const [{ analisis, datos }, { alertas }] = await Promise.all([
+    api('/api/analisis?nodo=' + encodeURIComponent(nodoActivo) + '&horas=96'),
+    api('/api/alertas?nodo=' + encodeURIComponent(nodoActivo)),
+  ]);
+  $('detalle').style.display = 'block';
+  const s = analisis.semaforo, i = analisis.instantaneo, h = analisis.hoy, c = analisis.cultivo;
+
+  $('banner').style.background = s.color + '22';
+  $('banner').style.border = '1px solid ' + s.color;
+  $('banner').innerHTML = `<span class="estado" style="color:${s.color}">${s.estado}</span>
+    <span>${s.mensaje} <span class="sub">(${c.nombre} — nodo ${nodoActivo})</span></span>`;
+
+  const proy = analisis.proyeccion;
+  $('metricas').innerHTML = [
+    m(i.aguaUtil != null ? i.aguaUtil + '%' : '—', 'Agua útil disponible', 'entre umbral crítico y capacidad de campo'),
+    m(proy && proy.diasHastaRiego != null ? proy.diasHastaRiego + ' días' : '—', 'Próximo riego (proyección)', proy ? `secando a ${Math.abs(proy.tasaSecado)} pts/día` : 'sin tendencia clara'),
+    m(h.etc != null ? h.etc + ' mm' : '—', 'Demanda del cultivo hoy (ETc)', h.etc != null ? `≙ ${h.etc} L/m² · ET₀ ${h.et0} mm` : 'requiere T máx/mín del día'),
+    m(i.vpd != null ? i.vpd + ' kPa' : '—', 'VPD (déficit presión vapor)', i.vpdClase ? i.vpdClase.nivel + ': ' + i.vpdClase.nota : ''),
+    m(i.puntoRocio != null ? i.puntoRocio + '°C' : '—', 'Punto de rocío', 'riesgo de hoja mojada si T se acerca'),
+    m(h.gddAcumulado != null ? h.gddAcumulado : '—', 'Grados-día acumulados', 'desarrollo fenológico del cultivo'),
+  ].join('');
+
+  $('alertas').innerHTML = alertas.length
+    ? alertas.map((a) => `<div class="item sev-${a.severidad}"><b>${a.tipo.replace(/_/g, ' ')}</b> · ${a.mensaje}<div class="cuando">${fmtHora(a.ts)}</div></div>`).join('')
+    : '<div class="sub">Sin alertas registradas ✓</div>';
+
+  $('eventos').innerHTML = analisis.eventosAgua.length
+    ? analisis.eventosAgua.slice().reverse().map((e) => `<div class="item"><b>+${e.magnitud} pts</b> de humedad (${e.humedadInicial}% → ${e.humedadFinal}%)<div class="cuando">${fmtHora(e.ts)}</div></div>`).join('')
+    : '<div class="sub">Ningún riego o lluvia detectada en el período</div>';
+
+  $('tablaDias').innerHTML = analisis.resumenDiario.slice().reverse().map((d) => `
+    <tr><td>${d.fecha}</td><td>${d.humMedia}%</td><td>${d.humMin}%</td><td>${d.tMin ?? '—'}°</td><td>${d.tMax ?? '—'}°</td>
+    <td>${d.et0 ?? '—'}</td><td>${d.etc ?? '—'}</td><td>${d.gddAcumulado}</td></tr>`).join('');
+
+  dibujarGraficas(datos, c);
+}
+
+function m(v, l, n) { return `<div class="metrica"><div class="v">${v}</div><div class="l">${l}</div><div class="n">${n}</div></div>`; }
+
+function dibujarGraficas(datos, cultivo) {
+  const labels = datos.map((d) => new Date(d.ts).toLocaleString('es-CO', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }));
+  const base = { pointRadius: 0, borderWidth: 2, tension: 0.3 };
+  const linea = (v, color, dash) => ({ ...base, data: datos.map(() => v), borderColor: color, borderDash: dash || [6, 4], borderWidth: 1.2, label: '' });
+
+  const cfgH = {
+    type: 'line',
+    data: { labels, datasets: [
+      { ...base, label: 'Humedad suelo %', data: datos.map((d) => d.humedad_suelo), borderColor: '#4ade80', backgroundColor: '#4ade8022', fill: true },
+      { ...linea(cultivo.rojo, '#f87171'), label: 'Umbral REGAR (' + cultivo.rojo + '%)' },
+      { ...linea(cultivo.amarillo, '#fbbf24'), label: 'Umbral PRONTO (' + cultivo.amarillo + '%)' },
+      { ...linea(cultivo.exceso, '#60a5fa'), label: 'EXCESO (' + cultivo.exceso + '%)' },
+    ]},
+    options: opciones(0, 100),
+  };
+  const cfgC = {
+    type: 'line',
+    data: { labels, datasets: [
+      { ...base, label: 'T aire °C', data: datos.map((d) => d.temp_aire), borderColor: '#fb923c', yAxisID: 'y' },
+      { ...base, label: 'T suelo °C', data: datos.map((d) => d.temp_suelo), borderColor: '#c084fc', yAxisID: 'y' },
+      { ...base, label: 'HR aire %', data: datos.map((d) => d.hum_aire), borderColor: '#60a5fa', yAxisID: 'y2' },
+    ]},
+    options: { ...opciones(), scales: { ...ejes(), y2: { position: 'right', min: 0, max: 100, grid: { display: false }, ticks: { color: '#60a5fa' } } } },
+  };
+  if (chHumedad) { chHumedad.data = cfgH.data; chHumedad.update('none'); }
+  else chHumedad = new Chart($('chHumedad'), cfgH);
+  if (chClima) { chClima.data = cfgC.data; chClima.update('none'); }
+  else chClima = new Chart($('chClima'), cfgC);
+}
+
+function ejes(min, max) {
+  return { x: { ticks: { color: '#8fa89a', maxTicksLimit: 8 }, grid: { color: '#1c2d24' } },
+           y: { min, max, ticks: { color: '#8fa89a' }, grid: { color: '#1c2d24' } } };
+}
+function opciones(min, max) {
+  return { responsive: true, animation: false, interaction: { mode: 'index', intersect: false },
+    plugins: { legend: { labels: { color: '#e7f0ea', filter: (l) => l.text !== '' } } }, scales: ejes(min, max) };
+}
+
+setInterval(() => { $('reloj').textContent = new Date().toLocaleString('es-CO'); }, 1000);
+refrescarNodos();
+setInterval(refrescarNodos, 5000);
+</script>
+</body>
+</html>

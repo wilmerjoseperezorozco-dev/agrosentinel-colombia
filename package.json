@@ -1,0 +1,15 @@
+{
+  "name": "agromonitor-tubara",
+  "version": "0.1.0",
+  "description": "Sistema de monitoreo IoT low-cost de suelo y clima para agricultores del Atlántico, Colombia. Motor agronómico FAO-56, dashboard en tiempo real, firmware ESP32.",
+  "main": "servidor/server.js",
+  "scripts": {
+    "start": "node servidor/server.js",
+    "simulador": "node simulador/simulador.js"
+  },
+  "keywords": ["agricultura", "iot", "esp32", "colombia", "suelo", "riego", "fao56", "agronomia"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

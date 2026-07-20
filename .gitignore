@@ -1,0 +1,29 @@
+# Datos de runtime — nunca subir al repo
+servidor/datos/
+
+# Dependencias (si se agregan en el futuro)
+node_modules/
+
+# Entornos
+.env
+.env.local
+*.env
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build de Arduino
+*.elf
+*.hex
+build/
