@@ -1,4 +1,4 @@
-// AgroMonitor Tubará — Simulador de nodos de campo
+﻿// AgroSentinel Colombia — Simulador de nodos de campo
 // Simula 3 nodos con física realista: ciclo térmico día/noche, secado del suelo
 // por evapotranspiración, riegos del agricultor y lluvias aleatorias.
 // Al iniciar hace "backfill" de 7 días de historia y luego emite en vivo.

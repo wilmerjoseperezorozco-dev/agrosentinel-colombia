@@ -1,4 +1,4 @@
-// AgroMonitor Tubará — servidor local (cero dependencias, solo Node)
+﻿// AgroSentinel Colombia — servidor local (cero dependencias, solo Node)
 // Ejecutar:  node server.js   →  http://localhost:3300
 'use strict';
 
@@ -162,6 +162,6 @@ const server = http.createServer((req, res) => {
 lecturas = cargar(ARCHIVO_LECTURAS, {});
 historialAlertas = cargar(ARCHIVO_ALERTAS, []);
 server.listen(PUERTO, () => {
-  console.log('🌱 AgroMonitor Tubará — http://localhost:' + PUERTO);
+  console.log('🌱 AgroSentinel Colombia — http://localhost:' + PUERTO);
   console.log('   Nodos ESP32/simulador → POST http://<IP-de-este-PC>:' + PUERTO + '/api/lecturas');
 });

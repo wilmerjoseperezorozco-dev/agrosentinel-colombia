@@ -1,7 +1,7 @@
-# Investigación Agrícola Colombia 2026
+﻿# Investigación Agrícola Colombia 2026
 ## Técnicas Internacionales, Barreras del Campesino y Marco de Datos para la Producción Alimentaria
 
-**Proyecto:** AgroMonitor Tubará  
+**Proyecto:** AgroSentinel Colombia  
 **Área:** Atlántico, Colombia — Bosque seco tropical, lat. 11°N  
 **Fecha:** 14 de septiembre de 2026  
 **Autor:** Wilmer Pérez Orozco  
@@ -57,7 +57,7 @@ Los estudios científicos revisados identifican consistentemente cinco variables
 4. **Evapotranspiración de referencia ET₀** — calibra la demanda hídrica real vs. lo que el suelo tiene
 5. **Grados-día acumulados (GDD)** — predice estados fenológicos con más precisión que el calendario
 
-**AgroMonitor Tubará ya captura las 5 variables.** Esta es la base de datos mínima que la literatura científica valida como suficiente para decisiones de riego de precisión en cultivos de ciclo corto.
+**AgroSentinel Colombia ya captura las 5 variables.** Esta es la base de datos mínima que la literatura científica valida como suficiente para decisiones de riego de precisión en cultivos de ciclo corto.
 
 ---
 
@@ -262,7 +262,7 @@ Grupo B (control — práctica tradicional):
 
 ### 6.3 Innovaciones documentadas que NO existen en el mercado local
 
-**AgroMonitor Tubará aporta algo genuinamente nuevo** para el contexto caribeño colombiano:
+**AgroSentinel Colombia aporta algo genuinamente nuevo** para el contexto caribeño colombiano:
 
 1. **Motor ET₀ con RA mensual calibrado para latitud 11°N** — los sistemas comerciales disponibles en Colombia (cuando los hay) usan fórmulas genéricas o datos de Bogotá (lat. 4°N), que subestiman la demanda hídrica del Caribe hasta en un 35%
 2. **Semáforo OLED sin internet** — ninguna solución comercial accesible funciona offline; para el campesino de Tubará que tiene señal 4G intermitente, esto es la diferencia entre usar y no usar el sistema
@@ -378,4 +378,4 @@ Estos tres adiciones son modificaciones menores al servidor que no requieren cam
 
 ---
 
-*Documento generado como parte del proyecto AgroMonitor Tubará. Los datos de fuentes gubernamentales están disponibles públicamente y son citables. Los datos de campo son propiedad intelectual del proyecto. Septiembre 2026.*
+*Documento generado como parte del proyecto AgroSentinel Colombia. Los datos de fuentes gubernamentales están disponibles públicamente y son citables. Los datos de campo son propiedad intelectual del proyecto. Septiembre 2026.*

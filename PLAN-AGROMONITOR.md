@@ -1,4 +1,4 @@
-# AgroMonitor Tubará — Monitoreo de suelo y clima low-cost para agricultores del Atlántico
+﻿# AgroSentinel Colombia — Monitoreo de suelo y clima low-cost para agricultores del Atlántico
 
 > Análisis técnico-agronómico. Enfoque: partir del costo/tecnología profesional (lo difícil)
 > y factorizar hacia una solución casera, económica y demostrable en Colombia.

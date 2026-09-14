@@ -1,5 +1,5 @@
-{
-  "name": "agromonitor-tubara",
+﻿{
+  "name": "agrosentinel-colombia",
   "version": "0.1.0",
   "description": "Sistema de monitoreo IoT low-cost de suelo y clima para agricultores del Atlántico, Colombia. Motor agronómico FAO-56, dashboard en tiempo real, firmware ESP32.",
   "main": "servidor/server.js",

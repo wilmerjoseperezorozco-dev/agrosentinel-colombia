@@ -1,4 +1,4 @@
-# AgroMonitor Tubará — Roadmap IA + Visión por Computadora
+﻿# AgroSentinel Colombia — Roadmap IA + Visión por Computadora
 
 > Fase 0 (actual): sensores de suelo y clima, motor agronómico FAO-56, dashboard.
 > Este documento define las fases 1–4: visión, plagas, drones e IA predictiva.

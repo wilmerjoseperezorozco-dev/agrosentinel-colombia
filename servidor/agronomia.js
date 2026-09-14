@@ -1,4 +1,4 @@
-// AgroMonitor Tubará — Motor agronómico
+﻿// AgroSentinel Colombia — Motor agronómico
 // Cálculos basados en FAO-56 (Allen et al.) adaptados a lat 10.9°N (Tubará, Atlántico)
 'use strict';
 

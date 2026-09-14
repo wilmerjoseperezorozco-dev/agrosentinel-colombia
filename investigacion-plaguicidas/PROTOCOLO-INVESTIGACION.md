@@ -1,4 +1,4 @@
-# Protocolo de Investigación Científica
+﻿# Protocolo de Investigación Científica
 ## Exposición a Plaguicidas en Comunidades Agrícolas del Atlántico: Riesgos para la Salud Humana, Residuos en Alimentos y Estrategias de Reducción mediante Tecnología IoT
 
 **Tipo de estudio:** Investigación observacional de cohorte transversal + intervención tecnológica  
@@ -6,7 +6,7 @@
 **Registro prospectivo:** Zenodo DOI (pendiente de asignación)  
 **Versión del protocolo:** 1.0 — 14 septiembre 2026  
 **Autor principal:** Wilmer Pérez Orozco  
-**Institución:** Proyecto AgroMonitor Tubará — Atlántico, Colombia  
+**Institución:** Proyecto AgroSentinel Colombia — Atlántico, Colombia  
 
 ---
 

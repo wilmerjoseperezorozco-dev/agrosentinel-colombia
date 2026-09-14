@@ -1,4 +1,4 @@
-# AgroMonitor Tubará
+﻿# AgroSentinel Colombia
 
 Sistema de monitoreo agronómico IoT de bajo costo para pequeños productores del departamento del Atlántico, Colombia. Desarrollado en el municipio de Tubará como respuesta a la necesidad de asistencia técnica accesible en zonas de bosque seco tropical con déficit hídrico estacional.
 
@@ -44,8 +44,8 @@ ESP32 (campo)                    PC / Servidor local                  Agricultor
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/wilmerjperez/agromonitor-tubara.git
-cd agromonitor-tubara
+git clone https://github.com/wilmerjperez/agrosentinel-colombia.git
+cd agrosentinel-colombia
 
 # Terminal 1 — servidor
 node servidor/server.js
@@ -77,7 +77,7 @@ Ver `firmware/agromonitor_esp32/` para el sketch Arduino completo con instruccio
 ## Estructura del proyecto
 
 ```
-agromonitor-tubara/
+agrosentinel-colombia/
 ├── servidor/
 │   ├── server.js          # API HTTP + sirviendo el dashboard (Node puro)
 │   ├── agronomia.js       # Motor FAO-56: ET₀, VPD, GDD, alertas, proyecciones

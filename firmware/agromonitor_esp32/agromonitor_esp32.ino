@@ -1,5 +1,5 @@
-/*
- * AgroMonitor Tubará — Firmware nodo de campo v1.0
+﻿/*
+ * AgroSentinel Colombia — Firmware nodo de campo v1.0
  * Placa: ESP32 Dev Module (Arduino IDE 2.x, core esp32 by Espressif)
  *
  * Sensores:
