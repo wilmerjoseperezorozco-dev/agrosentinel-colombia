@@ -1,177 +1,246 @@
-﻿# AgroSentinel Colombia
+# AgroSentinel Colombia
 
-Sistema de monitoreo agronómico IoT de bajo costo para pequeños productores del departamento del Atlántico, Colombia. Desarrollado en el municipio de Tubará como respuesta a la necesidad de asistencia técnica accesible en zonas de bosque seco tropical con déficit hídrico estacional.
+<div align="center">
 
-## El problema que resuelve
+[![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.pending.svg)](https://zenodo.org/badge/latestdoi/agrosentinel-colombia)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Open Science](https://img.shields.io/badge/Open%20Science-CC%20BY%204.0-blue.svg)](investigacion-plaguicidas/)
+[![Study n=44](https://img.shields.io/badge/Cohort-n%3D44%20farmers-orange.svg)](#scientific-research)
+[![30 months](https://img.shields.io/badge/Study%20period-30%20months-blueviolet.svg)](#timeline)
+[![HPLC-MS/MS](https://img.shields.io/badge/Lab-HPLC--MS%2FMS%2088%20samples-red.svg)](#methods)
 
-En el Atlántico llueve 800–1.200 mm/año concentrados en dos períodos. El resto del año los agricultores riegan "a ojo", generando pérdidas de 30–60% de rendimiento por estrés hídrico o lavado de nutrientes. Las soluciones profesionales de monitoreo de suelo cuestan $8–20 millones COP por punto más suscripción mensual — fuera del alcance del productor de 0.5–5 ha.
+**Low-cost IoT agronomic monitoring · Pesticide exposure cohort study · Open dataset**
 
-Este sistema lleva el mismo análisis agronómico a un kit ensamblable por $83.000–180.000 COP.
+[English](#english-abstract) · [Español](#resumen) · [Research Protocol](investigacion-plaguicidas/PROTOCOLO-INVESTIGACION.md) · [Issues](https://github.com/wilmerjoseperezorozco-dev/agrosentinel-colombia/issues) · [Releases](https://github.com/wilmerjoseperezorozco-dev/agrosentinel-colombia/releases)
 
-## Funcionalidades (Fase 0)
+</div>
 
-- **Motor agronómico FAO-56**: evapotranspiración ET₀ por Hargreaves-Samani con radiación extraterrestre para latitud 11°N, demanda del cultivo (ETc = ET₀ × Kc), balance hídrico diario.
-- **VPD (déficit de presión de vapor)**: detecta cuándo la planta cierra estomas aunque haya agua en el suelo.
-- **Grados-día acumulados (GDD)**: seguimiento del desarrollo fenológico por cultivo.
-- **Proyección de riego**: regresión sobre tasa de secado → "te quedan N días antes de regar".
-- **Detección de eventos de agua**: identifica riegos y lluvias automáticamente por saltos en la curva de humedad.
-- **Semáforo REGAR / PRONTO / OK / EXCESO**: funciona en pantalla OLED sin internet.
-- **6 tipos de alerta agronómica**: estrés hídrico, suelo saturado, estrés térmico (≥35°C), riesgo fúngico (HR>85% sostenida 6 h), VPD crítico, hoja mojada nocturna.
-- **Dashboard en tiempo real**: gráficas de humedad con umbrales del cultivo, temperatura, HR, historial de alertas, tabla diaria ET₀/ETc/GDD.
-- **Simulador físico**: 7 días de historia + modo en vivo con ciclo día/noche, secado real y eventos aleatorios — permite desarrollar y demostrar sin hardware.
+---
 
-## Cultivos soportados
+## English Abstract
 
-Melón · Ají · Tomate · Maíz · Yuca
+**AgroSentinel Colombia** is an open-science platform that couples a **low-cost ESP32 IoT soil/climate monitoring system** with a **30-month prospective cohort study** investigating organophosphate and carbamate pesticide exposure and human health outcomes in smallholder farming communities of the Atlántico department, Caribbean Colombia.
 
-Umbrales de humedad volumétrica calibrados para suelos franco-arenosos y franco-arcillosos del Atlántico.
+### Why this study
 
-## Arquitectura
+Colombia applies **~60 000 tonnes of pesticides per year** — among the highest rates in Latin America — yet systematic epidemiological data on small-scale producers are virtually absent from peer-reviewed literature. Existing monitoring infrastructure costs USD 2 200–5 500 per field point, placing it beyond the reach of 0.5–5 ha farms. This project bridges both gaps simultaneously: the IoT platform generates continuous agronomic data at a **field-node cost of USD 36–49** (130 000–180 000 COP), while the research protocol generates the epidemiological evidence that Colombia's public-health agencies lack.
+
+### Key numbers
+
+| Metric | Value |
+|--------|-------|
+| Study design | Prospective cohort (2 crop cycles) |
+| Participants | n = 44 smallholder farmers |
+| Study period | 30 months · Nov 2026 – May 2029 |
+| IoT nodes deployed | 12 (1 per ~4 farmers) |
+| Food samples (HPLC-MS/MS) | 88 (tomato, pepper, melon) |
+| AChE inhibition measurements | 88 blood samples, paired |
+| Spirometry assessments | 44 × 4 timepoints = 176 |
+| Groundwater sampling points | ≥ 6 wells |
+| Hypotheses | 4 (H1–H4) |
+| Field-node cost | USD 36–49 vs USD 2 200–5 500 commercial |
+| Cost reduction | **98%** |
+| Supported crops | 5 (melón, ají, tomate, maíz, yuca) |
+| Agronomic alert types | 6 |
+
+### Research Hypotheses
+
+| ID | Hypothesis | Primary endpoint |
+|----|-----------|------------------|
+| **H1** | Organophosphate/carbamate application events are associated with ≥ 20% AChE inhibition at 48 h | Blood AChE (Ellman method) |
+| **H2** | Pesticide residues in harvest samples exceed Codex Alimentarius MRL in ≥ 20% of cases | HPLC-MS/MS (88 food samples) |
+| **H3** | Cumulative pesticide exposure is associated with a ≥ 10% reduction in FEV₁ / FVC ratio at 30 months | Portable spirometry (4 timepoints) |
+| **H4** | Adoption of bio-pesticide alternatives reduces AChE inhibition events by ≥ 40% relative to control group | AChE biomarker comparison, intervention arm |
+
+### Methods snapshot
+
+- **Exposure assessment**: IoT digital logs of application events (product, dose, duration, re-entry interval) via the AgroSentinel Android module; cross-validated against self-reported questionnaires.
+- **Biomarker**: Erythrocyte and plasma AChE inhibition (Ellman colorimetric, standardized to baseline at enrolment).
+- **Residue analysis**: HPLC-MS/MS, 88 food matrix samples (≥ 100 g each), analysed against 150+ pesticide panel; quantification limits aligned with EU EFSA and Codex Alimentarius MRLs.
+- **Respiratory function**: Portable digital spirometer (FVC, FEV₁, FEV₁/FVC, PEF) at baseline, 6, 18, and 30 months.
+- **Water quality**: Groundwater nitrate, organochlorine, and glyphosate analysis, ≥ 6 sampling points per crop cycle.
+- **Statistical analysis**: R (Mann-Whitney U, multivariate logistic regression, ROC curves, mixed effects models for longitudinal data). Code: `investigacion-plaguicidas/ANALISIS-R/`.
+- **Ethics**: Institutional ethics committee review pending (CUC / UMATA Atlántico). Informed consent protocol in `investigacion-plaguicidas/PROTOCOLO-INVESTIGACION.md`.
+
+### Timeline
 
 ```
-ESP32 (campo)                    PC / Servidor local                  Agricultor
-┌─────────────────┐              ┌──────────────────────────────┐     ┌────────────┐
-│ Sensor suelo    │   WiFi HTTP  │ server.js (Node, sin deps)   │     │ Dashboard  │
-│ DHT22 temp/HR   │ ──────────►  │ agronomia.js (motor FAO-56)  │──►  │ Navegador  │
-│ DS18B20 t.suelo │   POST JSON  │ datos/ (persistencia local)  │     │ localhost  │
-│ OLED semáforo   │              └──────────────────────────────┘     └────────────┘
-└─────────────────┘                           │
-                                              ▼ (Fase 2)
-                                     n8n → WhatsApp alerts
+2026-Q4   Phase 0  — Ethics approval · farmer recruitment · node deployment
+2027-Q1   Phase 1  — Crop cycle 1: AChE baselines, HPLC-MS/MS batch 1 (44 samples),
+                      spirometry round 1, groundwater sampling
+2027-Q4   Phase 1  — Crop cycle 1 end: HPLC-MS/MS batch 2 (44 samples), AChE follow-up
+2028-Q2   Phase 2  — Crop cycle 2: bio-pesticide intervention arm, full repeat of
+                      biomarker and residue measurements, longitudinal spirometry
+2028-Q4   Phase 2  — Interim analysis; statistical pipeline (R), ROC curves
+2029-Q2   Phase 3  — Manuscript submission (Computers & Electronics in Agriculture, IF 8.3)
+                      Dataset deposit: Zenodo (open access, CC BY 4.0)
 ```
 
-## Inicio rápido (sin hardware)
+---
+
+## Resumen
+
+**AgroSentinel Colombia** es una plataforma de ciencia abierta que combina un **sistema de monitoreo agronómico IoT de bajo costo** (nodos ESP32, motor FAO-56, dashboard en tiempo real) con un **estudio de cohorte prospectivo de 30 meses** sobre exposición a plaguicidas organofosforados y carbamatos y efectos en salud humana en comunidades agrícolas del departamento del Atlántico, Colombia.
+
+**El doble problema que resuelve:**
+1. Las soluciones profesionales de monitoreo de suelo cuestan $8–20 millones COP por punto; este sistema baja ese costo a $130.000–180.000 COP (**reducción del 98%**).
+2. Colombia carece de datos epidemiológicos sistemáticos sobre exposición a plaguicidas en pequeños productores del Caribe, a pesar de aplicar ~60.000 toneladas/año de plaguicidas.
+
+**El estudio:** n = 44 agricultores · 30 meses · 12 nodos IoT · 88 muestras HPLC-MS/MS · 4 hipótesis (H1–H4) · protocolo completo en `investigacion-plaguicidas/`.
+
+---
+
+## IoT System — Quick Start
+
+### No hardware needed (simulator mode)
 
 ```bash
-# Clonar el repositorio
-git clone https://github.com/wilmerjperez/agrosentinel-colombia.git
+git clone https://github.com/wilmerjoseperezorozco-dev/agrosentinel-colombia.git
 cd agrosentinel-colombia
 
-# Terminal 1 — servidor
+# Terminal 1 — server + dashboard
 node servidor/server.js
 
-# Terminal 2 — simulador (genera 7 días de historia + modo en vivo)
+# Terminal 2 — physical simulator (7-day backfill + live mode)
 node simulador/simulador.js
 
-# Abrir en el navegador
+# Open in browser
 start http://localhost:3300
 ```
 
-Requisitos: Node.js ≥ 18. Sin dependencias npm.
+Requires: Node.js ≥ 18. Zero npm dependencies.
 
-## Hardware del nodo de campo
+### Agronomic engine (FAO-56)
 
-| Componente | Función | Precio COP aprox. |
-|---|---|---|
-| ESP32 DevKit | Microcontrolador + WiFi | $28.000–38.000 |
-| Sensor capacitivo suelo v2.0 | Humedad volumétrica | $8.000–15.000 |
-| SHT31 / DHT22 | Temperatura y HR del aire | $14.000–25.000 |
-| DS18B20 sumergible | Temperatura del suelo | $8.000–12.000 |
-| OLED SSD1306 128×64 | Semáforo sin internet | $12.000 |
-| Panel solar 6V + TP4056 + 18650 | Autonomía indefinida | $35.000–50.000 |
-| Caja estanca IP65 | Protección campo | $25.000–40.000 |
-| **Total nodo** | | **$130.000–190.000** |
+| Module | Calculation | Detail |
+|--------|-------------|--------|
+| ET₀ | Hargreaves-Samani | Calibrated for 11°N latitude (Atlántico) |
+| ETc | ET₀ × Kc | Crop coefficients for 5 crops |
+| VPD | Tetens equation | Stomatal closure detection |
+| GDD | Base temperature by crop | Phenological stage tracking |
+| Irrigation forecast | Linear regression on drying rate | "N days to irrigate" |
+| Alert engine | 6 types | Drought, saturation, heat stress, fungal risk, critical VPD, wet-leaf night |
 
-Ver `firmware/agromonitor_esp32/` para el sketch Arduino completo con instrucciones de calibración.
+### Field Node Hardware
 
-## Estructura del proyecto
+| Component | Function | Price COP |
+|-----------|----------|-----------|
+| ESP32 DevKit | MCU + WiFi | $28 000–38 000 |
+| Capacitive soil sensor v2.0 | Volumetric moisture | $8 000–15 000 |
+| SHT31 / DHT22 | Temperature + RH | $14 000–25 000 |
+| DS18B20 (waterproof) | Soil temperature | $8 000–12 000 |
+| OLED SSD1306 128×64 | Offline semaphore | $12 000 |
+| 6V solar + TP4056 + 18650 | Autonomous power | $35 000–50 000 |
+| IP65 enclosure | Field protection | $25 000–40 000 |
+| **Node total** | | **$130 000–190 000** |
+
+See `firmware/agromonitor_esp32/agromonitor_esp32.ino` for the complete calibrated sketch.
+
+### API
+
+| Method | Route | Description |
+|--------|-------|-------------|
+| GET | `/api/nodos` | Current state of all nodes |
+| GET | `/api/analisis?nodo=X&horas=96` | Full agronomic analysis for one node |
+| GET | `/api/alertas?nodo=X` | Alert history (last 50) |
+| GET | `/api/cultivos` | Crop thresholds table |
+| POST | `/api/lecturas` | Receive reading from ESP32 or simulator |
+
+---
+
+## Project Structure
 
 ```
 agrosentinel-colombia/
 ├── servidor/
-│   ├── server.js          # API HTTP + sirviendo el dashboard (Node puro)
-│   ├── agronomia.js       # Motor FAO-56: ET₀, VPD, GDD, alertas, proyecciones
-│   └── public/
-│       └── index.html     # Dashboard en tiempo real (Chart.js)
+│   ├── server.js              # HTTP API + dashboard serving (pure Node, zero deps)
+│   ├── agronomia.js           # FAO-56 engine: ET₀, ETc, VPD, GDD, alerts, forecast
+│   └── public/index.html      # Real-time dashboard (Chart.js)
 ├── simulador/
-│   └── simulador.js       # Simulador físico de nodos (backfill + en vivo)
+│   └── simulador.js           # Physical node simulator (backfill + live)
 ├── firmware/
 │   └── agromonitor_esp32/
-│       └── agromonitor_esp32.ino   # Firmware ESP32 listo para flashear
-├── PLAN-AGROMONITOR.md    # Análisis de negocio y factorización de costos
-├── ROADMAP-IA-AGRICULTURA.md  # Fases 1–4: visión, plagas, drones, IA predictiva
+│       └── agromonitor_esp32.ino   # ESP32 firmware (calibrated + ready to flash)
+├── investigacion-plaguicidas/
+│   ├── PROTOCOLO-INVESTIGACION.md  # Full research protocol (n=44, 30 months)
+│   ├── CRONOGRAMA.md               # 30-month Gantt timeline
+│   ├── REFERENCIAS.md              # 25 peer-reviewed references
+│   └── EXPORTACIONES-INCIDENTES.md # RASFF/FDA alert registry + 12 systematic studies
+├── .zenodo.json               # Zenodo metadata
+├── CITATION.cff               # Standard citation file (CFF 1.2)
+├── PLAN-AGROMONITOR.md        # Business and cost factorization analysis
+├── ROADMAP-IA-AGRICULTURA.md  # AI roadmap: YOLOv11, ESP32-CAM, drone NDVI, WhatsApp
 └── package.json
 ```
 
-## API del servidor
+---
 
-| Método | Ruta | Descripción |
-|---|---|---|
-| GET | `/api/nodos` | Estado actual de todos los nodos |
-| GET | `/api/analisis?nodo=X&horas=96` | Análisis agronómico completo de un nodo |
-| GET | `/api/alertas?nodo=X` | Historial de alertas (últimas 50) |
-| GET | `/api/cultivos` | Tabla de cultivos y umbrales |
-| POST | `/api/lecturas` | Recibir lectura de un ESP32 o simulador |
+## Data Availability & Open Science
 
-El ESP32 y el simulador usan el mismo endpoint — el servidor no los distingue. Cuando llegue el hardware, aparece como un nodo más sin cambiar una línea del servidor.
+| Dataset component | Format | License | Where |
+|-------------------|--------|---------|-------|
+| Anonymised IoT sensor data (per-lot) | CSV / JSON | CC BY 4.0 | Zenodo (post-Phase 1) |
+| Pesticide application digital logs | CSV | CC BY 4.0 | Zenodo (post-Phase 1) |
+| AChE inhibition results (anonymised) | CSV | CC BY 4.0 | Zenodo (post-Phase 2) |
+| HPLC-MS/MS results | CSV | CC BY 4.0 | Zenodo (post-Phase 2) |
+| Spirometry results (anonymised) | CSV | CC BY 4.0 | Zenodo (post-Phase 2) |
+| Full source code (firmware, server, R) | GitHub | MIT | This repository |
+| Research protocol | Markdown / PDF | CC BY 4.0 | `investigacion-plaguicidas/` |
+
+**DOI:** Dataset registered on Zenodo. DOI badge at the top of this file will update automatically on each release.
+
+---
 
 ## Roadmap
 
-| Fase | Capacidad | Estado |
-|------|-----------|--------|
-| 0 | Sensores suelo/clima + motor FAO-56 + dashboard | ✅ Completa |
-| 1 | Diagnóstico fitosanitario por fotografía (YOLOv11) | 🔜 Planificada |
-| 2 | Conteo de plagas en trampas con ESP32-CAM | 🔜 Planificada |
-| 3 | Mapa NDVI del lote con dron + OpenDroneMap | 🔜 Planificada |
-| 4 | Asistente WhatsApp + predicción de rendimiento | 🔜 Planificada |
+| Phase | Capability | Period | Status |
+|-------|-----------|--------|--------|
+| **0** | IoT system + FAO-56 engine + research protocol + ethics approval + recruitment | Nov 2026 | 🟡 In progress |
+| **1** | Crop cycle 1: HPLC-MS/MS, AChE, spirometry, groundwater | Nov 2026 – Jun 2027 | 🔜 Planned |
+| **2** | Crop cycle 2 + bio-pesticide intervention + longitudinal analysis | Jul 2027 – Jun 2028 | 🔜 Planned |
+| **3** | Manuscript + Zenodo open dataset | Jul 2028 – May 2029 | 🔜 Planned |
+| **AI-1** | YOLOv11 pest and disease detection from photographs | TBD | 🔜 Planned |
+| **AI-2** | ESP32-CAM trap counting (automated) | TBD | 🔜 Planned |
+| **AI-3** | Drone NDVI mapping + OpenDroneMap | TBD | 🔜 Planned |
+| **AI-4** | WhatsApp AI assistant + yield prediction | TBD | 🔜 Planned |
 
-Ver [`ROADMAP-IA-AGRICULTURA.md`](ROADMAP-IA-AGRICULTURA.md) para la especificación técnica completa de cada fase.
-
-## Licencia
-
-MIT — libre para usar, modificar y distribuir. Si lo usas en un proyecto agrícola en Colombia, comparte los resultados.
-
----
-
-Desarrollado en Tubará, Atlántico, Colombia.
+See open issues for detailed task tracking: [github.com/…/issues](https://github.com/wilmerjoseperezorozco-dev/agrosentinel-colombia/issues)
 
 ---
 
-## 🌐 Overview · Resumen
+## Citation
 
-<table>
-<tr>
-<td width="50%">
+If you use this system or protocol, please cite:
 
-### 🇬🇧 English
-
-**Low-cost IoT agronomic monitoring for smallholder farmers in Colombia's Caribbean coast** — no cloud subscription, no proprietary hardware.
-
-**What it solves:** Professional soil-monitoring solutions cost $8–20 M COP per point in Colombia, far beyond the reach of 0.5–5 ha producers. This system delivers the same agronomic intelligence — FAO-56 evapotranspiration, soil moisture balance, heat-stress and fungal-risk alerts — from a field kit assembled for $83 000–180 000 COP.
-
-**At maturity:** ESP32 field nodes send readings over Wi-Fi → a Node.js server runs the FAO-56 engine (ET₀, ETc, VPD, GDD, irrigation forecast) → a real-time browser dashboard shows thresholds, alerts, and irrigation timing for the farmer's specific crop. WhatsApp alerts (n8n) fire automatically when thresholds are crossed.
-
-**Quick start (no hardware needed):**
-```bash
-node servidor/server.js      # start the server + dashboard
-node simulador/simulador.js  # generate 7 days of history + live simulation
-# open http://localhost:3300
+```bibtex
+@software{perez_orozco_2026_agrosentinel,
+  author       = {Pérez Orozco, Wilmer José},
+  title        = {AgroSentinel Colombia: Low-Cost IoT Precision Agriculture
+                  and Pesticide Exposure Research in Caribbean Colombian
+                  Smallholder Farmers},
+  month        = sep,
+  year         = 2026,
+  publisher    = {Zenodo},
+  version      = {1.0.0},
+  url          = {https://github.com/wilmerjoseperezorozco-dev/agrosentinel-colombia}
+}
 ```
-Requires Node.js ≥ 18. Zero npm dependencies.
 
-**Status:** Phase 0 complete · Phases 1–4 planned: YOLOv11 pest detection, ESP32-CAM trap counting, drone NDVI mapping, WhatsApp AI assistant.
+See also [`CITATION.cff`](CITATION.cff) for machine-readable citation metadata.
 
-</td>
-<td width="50%">
+---
 
-### 🇨🇴 Español
+## License
 
-**Monitoreo agronómico IoT de bajo costo para pequeños productores de la Costa Caribe de Colombia** — sin suscripción en la nube, sin hardware propietario.
+- **Source code** (firmware, server, simulator, agronomic engine): [MIT](LICENSE)
+- **Research protocol and data** (`investigacion-plaguicidas/`): [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
-**Qué resuelve:** Las soluciones profesionales de monitoreo de suelo cuestan $8–20 millones COP por punto en Colombia — fuera del alcance del productor de 0,5–5 ha. Este sistema lleva la misma inteligencia agronómica — evapotranspiración FAO-56, balance de humedad, alertas de estrés térmico y riesgo fúngico — con un kit ensamblable por $83 000–180 000 COP.
+---
 
-**En fase madura:** Los nodos de campo ESP32 envían lecturas por Wi-Fi → un servidor Node.js ejecuta el motor FAO-56 (ET₀, ETc, VPD, GDD, proyección de riego) → un dashboard en el navegador muestra umbrales, alertas y calendarios de riego para el cultivo específico del agricultor. Las alertas por WhatsApp (n8n) se disparan automáticamente cuando se superan los umbrales.
+<div align="center">
 
-**Inicio rápido (sin hardware):**
-```bash
-node servidor/server.js      # iniciar el servidor + dashboard
-node simulador/simulador.js  # generar 7 días de historia + simulación en vivo
-# abrir http://localhost:3300
-```
-Requiere Node.js ≥ 18. Sin dependencias npm.
+Developed in **Tubará, Atlántico, Colombia** · Caribbean dry tropical forest · 11°N
 
-**Estado:** Fase 0 completa · Fases 1–4 planificadas: detección de plagas YOLOv11, conteo en trampas con ESP32-CAM, mapeo NDVI con dron, asistente IA por WhatsApp.
+*An open-science initiative to generate the epidemiological evidence that Colombia's smallholder farming communities deserve.*
 
-</td>
-</tr>
-</table>
+</div>
