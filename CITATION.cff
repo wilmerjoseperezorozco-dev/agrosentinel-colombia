@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use this software or protocol, please cite it as below."
+type: software
+title: "AgroSentinel Colombia: Low-Cost IoT Precision Agriculture and Pesticide Exposure Research"
+abstract: >
+  Open-science platform combining a low-cost ESP32-based IoT agronomic monitoring system
+  with a 30-month prospective cohort study (n=44 smallholder farmers) investigating
+  organophosphate and carbamate pesticide exposure and human health outcomes in the
+  Colombian Caribbean coast. Includes FAO-56 agronomic engine, HPLC-MS/MS sampling
+  protocol, AChE biomarker testing design, and R statistical pipeline.
+authors:
+  - family-names: "Pérez Orozco"
+    given-names: "Wilmer José"
+    affiliation: "Investigador independiente — Barranquilla, Atlántico, Colombia"
+    email: "wilmerjoseperezorozco@gmail.com"
+repository-code: "https://github.com/wilmerjoseperezorozco-dev/agrosentinel-colombia"
+url: "https://github.com/wilmerjoseperezorozco-dev/agrosentinel-colombia"
+license: MIT
+version: "1.0.0"
+date-released: "2026-09-17"
+keywords:
+  - precision agriculture
+  - IoT
+  - pesticide exposure
+  - organophosphates
+  - AChE inhibition
+  - HPLC-MS/MS
+  - food safety
+  - Colombia
+  - Caribbean coast
+  - smallholder farmers
+  - FAO-56
+  - evapotranspiration
+  - soil monitoring
+  - environmental health
+  - biopesticides
+  - open science
+  - ESP32
