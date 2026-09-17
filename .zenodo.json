@@ -1,0 +1,52 @@
+{
+  "title": "AgroSentinel Colombia: Low-Cost IoT Precision Agriculture and Pesticide Exposure Research in Caribbean Colombian Smallholder Farmers",
+  "creators": [
+    {
+      "name": "Pérez Orozco, Wilmer José",
+      "affiliation": "Investigador independiente — Barranquilla, Atlántico, Colombia"
+    }
+  ],
+  "description": "AgroSentinel Colombia is an open-science platform combining a low-cost IoT agronomic monitoring system (ESP32 nodes, FAO-56 engine, real-time dashboard) with a 30-month prospective cohort study (n=44 smallholder farmers, Atlántico department) investigating associations between organophosphate/carbamate pesticide exposure and respiratory function, spontaneous abortion rates, and AChE inhibition. The repository contains the complete firmware, Node.js server, agronomic engine, and the full research protocol including HPLC-MS/MS sampling plan (88 food samples), spirometry protocol, groundwater sampling design, and R statistical pipeline. Field node cost: USD 36–49 (130 000–180 000 COP) vs USD 2 200–5 500 for commercial equivalents. Supported crops: melón, ají, tomate, maíz, yuca. Study period: November 2026 – May 2029.",
+  "keywords": [
+    "precision agriculture",
+    "IoT",
+    "pesticide exposure",
+    "organophosphates",
+    "AChE inhibition",
+    "HPLC-MS/MS",
+    "food safety",
+    "Colombia",
+    "Caribbean coast",
+    "smallholder farmers",
+    "FAO-56",
+    "evapotranspiration",
+    "soil monitoring",
+    "environmental health",
+    "biopesticides",
+    "open science",
+    "ESP32"
+  ],
+  "license": {
+    "id": "MIT"
+  },
+  "upload_type": "software",
+  "access_right": "open",
+  "language": "spa",
+  "communities": [
+    {"identifier": "zenodo"}
+  ],
+  "grants": [],
+  "subjects": [
+    {"term": "Precision Agriculture", "identifier": "http://id.loc.gov/authorities/subjects/sh2008009048", "scheme": "url"},
+    {"term": "Environmental Health", "identifier": "http://id.loc.gov/authorities/subjects/sh85044027", "scheme": "url"},
+    {"term": "Pesticides -- Health aspects", "identifier": "http://id.loc.gov/authorities/subjects/sh85100473", "scheme": "url"}
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/wilmerjoseperezorozco-dev/agrosentinel-colombia",
+      "relation": "isSupplementTo",
+      "resource_type": "software"
+    }
+  ],
+  "notes": "This dataset and codebase are released under MIT license. The research protocol (investigacion-plaguicidas/) is released under CC BY 4.0. No MAPFRE or institutional funder is named — the project is intentionally open for adoption by any research institution. Study registration pending with the institutional ethics committee (Universidad de la Costa or UMATA Atlántico)."
+}
